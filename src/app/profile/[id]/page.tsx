@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -15,20 +16,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-interface UserProfileProps {
-  params: {
-    id: string;
-  };
-}
-
-interface User {
-  _id: string;
-  username: string;
-  email: string;
-}
-
-const UserProfile = ({ params }: UserProfileProps) => {
-  const [user, setUser] = useState<User | null>(null);
+const UserProfile = ({ params }: any) => {
+  const [user, setUser] = useState({
+    _id: null,
+    username: null,
+    email: null,
+  });
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +29,7 @@ const UserProfile = ({ params }: UserProfileProps) => {
       try {
         const res = await axios.get("/api/users/me");
         setUser(res.data.data);
-      } catch (error) {
+      } catch (error: any) {
         toast.error("Failed to fetch user data.");
       }
     };
